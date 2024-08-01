@@ -7,12 +7,13 @@ import { createBrowserRouter,
 
 // Pages
 import App from './App';
-import ErrorPage from './Pages/Error-pages/error-page';
+import ErrorPage from './pages/Error-pages/error-page';
+import ListServers from './pages/List-servers/list-servers';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <ListServers/>,
     errorElement: <ErrorPage/>
   }
 ])
