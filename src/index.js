@@ -6,11 +6,11 @@ import { createBrowserRouter,
 
 
 // Pages
-import App from './App';
-import ErrorPage from './Pages/Error-pages/error-page';
-import ListServers from './Pages/List-servers/list-servers';
-import CreateServer from './Pages/Create-servers/createServer';
-import MainServerPage from './Pages/Main/main-server/mainServer';
+//import App from './App';
+import ErrorPage from './Pages/Error-page/error-page';
+import ListServers from './Pages/List-server/list-server-page';
+import CreateServerPage from './Pages/Create-server-page/create-server-page';
+//import MainServerPage from './Pages/Main/main-server/mainServer';
 
 const router = createBrowserRouter([
   {
@@ -20,14 +20,14 @@ const router = createBrowserRouter([
   },
   {
     path: "/create-server",
-    element: <CreateServer/>,
+    element: <CreateServerPage/>,
     errorElement: <ErrorPage/>
   },
-  {
-    path: "/main-server",
-    element: <MainServerPage/>,
-    errorElement: <ErrorPage/>
-  }
+  // {
+  //   path: "/main-server",
+  //   element: <MainServerPage/>,
+  //   errorElement: <ErrorPage/>
+  // }
 ])
 
 

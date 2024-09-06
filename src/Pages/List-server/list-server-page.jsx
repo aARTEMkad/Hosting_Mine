@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react"
 import axios from "axios"
-
-// components
-import ServerItem from "../../components/Server-item/ServerItem";
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 
+import ServerItem from "../../components/server-item";
 
-export default function ListServers() {
+
+
+
+export default function ListServerPage() {
     const [ servers, setServers ] = useState([]);
     const navigate = useNavigate();
 
@@ -25,12 +26,13 @@ export default function ListServers() {
         
     }, [])
 
-    function goToAbout() {
+    function goToCreateServer() {
        navigate('create-server')
     }
 
+
     return (
-        <div id="Servers">
+        <div id="list-server-page">
             <h1>List servers</h1>
             
             
@@ -43,7 +45,7 @@ export default function ListServers() {
                     </li>
                 ))}
                 <li>
-                    <button type="button" onClick={goToAbout} >Add server</button>
+                    <button type="button" onClick={goToCreateServer} >Add server</button>
                 </li>
             </ul>
         </div>
