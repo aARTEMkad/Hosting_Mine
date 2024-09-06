@@ -3,9 +3,7 @@
 
 import axios from "axios";
 import { useState } from "react";
-import { useLocation } from "react-router-dom"
-
-
+import { Link, useLocation } from "react-router-dom"
 
 export default function MainServerPage() {
     const location = useLocation();
@@ -46,6 +44,24 @@ export default function MainServerPage() {
             <button onClick={startServer}>Start</button>
             <button onClick={restartServer}>Restart</button>
             <button onClick={stopServer}>Stop</button>
+
+
+            <nav>
+                <ul>
+                    <li>
+                        <Link to="/">Home</Link>
+                    </li>
+                    <li>
+                        <Link to="/server-setting">Setting</Link>
+                    </li>
+                    <li>
+                        <Link to="/server-logs">Logs</Link>
+                    </li>
+                    
+                </ul>
+            </nav>
+
+          
         </div>
     )
 }
