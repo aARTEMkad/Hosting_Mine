@@ -10,7 +10,7 @@ import { createBrowserRouter,
 import ErrorPage from './Pages/Error-page/error-page';
 import ListServers from './Pages/List-server/list-server-page';
 import CreateServerPage from './Pages/Create-server-page/create-server-page';
-//import MainServerPage from './Pages/Main/main-server/mainServer';
+import MainServerPage from './Pages/main-server/main-server-page';
 
 const router = createBrowserRouter([
   {
@@ -23,11 +23,11 @@ const router = createBrowserRouter([
     element: <CreateServerPage/>,
     errorElement: <ErrorPage/>
   },
-  // {
-  //   path: "/main-server",
-  //   element: <MainServerPage/>,
-  //   errorElement: <ErrorPage/>
-  // }
+  {
+    path: "/main-server",
+    element: <MainServerPage/>,
+    errorElement: <ErrorPage/>
+  }
 ])
 
 

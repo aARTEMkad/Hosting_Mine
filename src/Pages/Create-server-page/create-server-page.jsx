@@ -1,10 +1,13 @@
 import axios from "axios"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 //import { useNavigate } from "react-router-dom";
 
 
 
 export default function CreateServerPage() {
+    const navigate = useNavigate();
+
 
     const [nameServ, setNameServ] = useState();
     const [memoryServ, setMemoryServ] = useState(null);
@@ -25,6 +28,8 @@ export default function CreateServerPage() {
             version: versionServ,
             javaVersion: javaVersionServ
         })
+
+        navigate('/')
     }
 
 
