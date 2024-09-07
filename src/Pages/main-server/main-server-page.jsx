@@ -52,7 +52,7 @@ export default function MainServerPage() {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link to="/server-setting">Setting</Link>
+                        <Link to="/server-setting" state={{ name }}>Setting</Link>
                     </li>
                     <li>
                         <Link to="/server-logs">Logs</Link>

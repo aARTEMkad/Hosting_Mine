@@ -12,6 +12,7 @@ import ListServers from './Pages/List-server/list-server-page';
 import CreateServerPage from './Pages/Create-server-page/create-server-page';
 import MainServerPage from './Pages/main-server/main-server-page';
 import LogsServerPage from './Pages/main-server/logs/logs-server-page';
+import SettingServerPage from './Pages/main-server/setting/settings-server-page';
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/server-setting",
-    element: <LogsServerPage/>,
+    element: <SettingServerPage/>,
     errorElement: <ErrorPage/>
   },
   {
