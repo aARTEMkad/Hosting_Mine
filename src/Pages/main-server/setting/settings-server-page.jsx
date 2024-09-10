@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 export default function SettingServerPage() {
     const location = useLocation()
     const [ properties, setProperties ] = useState(null);
+    //const [ updateProperties, setUpdateProperties ] = useState(null);
 
     useEffect(() => {
         axios.get(`http://localhost:3333/api/server/server_properties`, {
@@ -15,27 +16,119 @@ export default function SettingServerPage() {
             }
         })
         .then(res => {
-            console.log(res.data);
-            setProperties(res.data);
+            console.log(res);
+            setProperties(res.data.properties);
+            //setUpdateProperties(res.data.properties);
         })
         .catch((err) => {   
             console.log(err);
         })
     }, [location.state.name])
+    
 
 
-    console.log()
-    return (
+    useEffect(() => {
+        console.log(properties)
+    })
+
+    function onChangeProperties(key, value) {
+        console.log(value); 
+        setProperties(prevState => ({
+            ...prevState,
+            [key]: `${value}`
+        }))
+       // console.log(properties);
+    }
+    
+    function onSaveInformation() {
+        console.log(3)
+    }
+
+    if(!properties) {
+        return <div>Loading...</div>
+    }
+    console.log(properties['max-players'])
+
+    return (    
         <div className="setting-server-page">
+            <p>{properties['allow-nether']}aa</p>
             <h1>Налаштування сервера: {location.state.name}</h1>
             <div className="properties">
-                <form>
-                    {/* Slots: <input name="max-players" type="number" step="1" min="1" max="1000000" value={properties.max-players}/> */}
-                    {/* Nether: <input name="allow-nether" type="checkbox" value={properties['allow-nether']}/> */}
+                <form onSubmit={(e) => { e.preventDefault(); onSaveInformation()}} >
+                    Slots: 
+                    <input 
+                        name="max-players" 
+                        type="number" 
+                        value={properties['max-player']} 
+                        step={1}
+                        min={1}
+                        max={100000}
+                        onChange={e => onChangeProperties('max-player', e.target.value)} />
+                    <p>{properties['max-player']}</p>
+                    |Nether: 
+                    <input 
+                        name="allow-nether" 
+                        type="checkbox" 
+                        checked={properties['allow-nether'] === 'true'} 
+                        onChange={e => onChangeProperties('allow-nether', e.target.checked)} />
+                    |Cracked: 
+                    <input 
+                        name="online-mode" 
+                        type="checkbox" 
+                        checked={properties['online-mode'] === 'true'} 
+                        onChange={e => onChangeProperties('online-mode', e.target.checked)}/>
+                    |Pvp: 
+                    <input 
+                        name="pvp" 
+                        type="checkbox" 
+                        checked={properties.pvp === 'true'} 
+                        onChange={e => onChangeProperties('pvp', e.target.checked)}/>
+                    |Command-block:
+                    <input 
+                        name="enable-command-block"    
+                        type="checkbox" 
+                        checked={properties['enable-command-block'] === 'true'} 
+                        onChange={e => onChangeProperties('enable-command-block', e.target.checked)}/>
+                    <p>{properties['enable-command-block']}</p>
+                    |Fly: 
+                    <input 
+                        name="allow-flight" 
+                        type="checkbox" 
+                        checked={properties['allow-flight'] === 'true'} 
+                        onChange={e => onChangeProperties('allow-flight', e.target.checked)}/>
+                    |Animals:
+                    <input 
+                        name="spawn-animals" 
+                        type="checkbox" 
+                        checked={properties['spawn-animals'] === 'true'} 
+                        onChange={e => onChangeProperties('spawn-animals', e.target.checked)}/>
+                    |Monsters:
+                    <input 
+                        name="spawn-monsters" 
+                        type="checkbox" 
+                        checked={properties['spawn-monsters'] === 'true'} 
+                        onChange={e => onChangeProperties('spawn-monsters', e.target.checked)}/>
+                    |Villages:
+                    <input 
+                        name="spawn-npcs" 
+                        type="checkbox" 
+                        checked={properties['spawn-npcs'] === 'true'} 
+                        onChange={e => onChangeProperties('spawn-npcs', e.target.checked)}/>
+                    |Spawn protection:
+                    <input 
+                        name="spawn-protection" 
+                        type="number" 
+                        value={properties['spawn-protection']} 
+                        onChange={e => onChangeProperties('spawn-protection', e.target.value)}/>
+                    
+
+                    |Sumbit
+                    <button type="sumbit" >Save</button>
                 </form>
             </div>
         </div>
     )
+    
 }
 
 
