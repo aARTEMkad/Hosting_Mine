@@ -7,7 +7,7 @@ import { Link, useLocation } from "react-router-dom"
 
 export default function MainServerPage() {
     const location = useLocation();
-    const { _id, name, memory, cpus, ports, core, version, javaVersion } = location.state
+    const { _id, name, memory, cpus, ports, core, version, javaVersion, containerId } = location.state
 
     const [ isRun, setIsRun ] = useState(false);
 
@@ -55,7 +55,7 @@ export default function MainServerPage() {
                         <Link to="/server-setting" state={{ name }}>Setting</Link>
                     </li>
                     <li>
-                        <Link to="/server-logs">Logs</Link>
+                        <Link to="/server-logs" state={{ name, containerId, isRun }}>Logs</Link>
                     </li>
                     
                 </ul>

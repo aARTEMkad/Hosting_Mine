@@ -35,7 +35,7 @@ export default function SettingServerPage() {
         console.log(value); 
         setProperties(prevState => ({
             ...prevState,
-            [key]: `${value}`
+            [key]: value.toString()
         }))
        // console.log(properties);
     }
@@ -52,19 +52,16 @@ export default function SettingServerPage() {
     return (    
         <div className="setting-server-page">
             <p>{properties['allow-nether']}aa</p>
-            <h1>Налаштування сервера: {location.state.name}</h1>
+            <h1>Setting server: {location.state.name}</h1>
             <div className="properties">
                 <form onSubmit={(e) => { e.preventDefault(); onSaveInformation()}} >
                     Slots: 
                     <input 
                         name="max-players" 
                         type="number" 
-                        value={properties['max-player']} 
-                        step={1}
-                        min={1}
-                        max={100000}
-                        onChange={e => onChangeProperties('max-player', e.target.value)} />
-                    <p>{properties['max-player']}</p>
+                        value={properties['max-players']} 
+                     
+                        onChange={e => onChangeProperties('max-players', e.target.value)} />
                     |Nether: 
                     <input 
                         name="allow-nether" 
