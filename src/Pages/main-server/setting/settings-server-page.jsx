@@ -29,7 +29,7 @@ export default function SettingServerPage() {
 
     useEffect(() => {
         console.log(properties)
-    })
+    }) // ----
 
     function onChangeProperties(key, value) {
         console.log(value); 
@@ -128,7 +128,7 @@ export default function SettingServerPage() {
     
 }
 
-
+// don't finish
 /*
 
 {properties ? (
