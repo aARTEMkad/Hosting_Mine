@@ -41,13 +41,16 @@ export default function SettingServerPage() {
     }
     
     function onSaveInformation() {
-        console.log(3)
+        axios.post(`http://localhost:3333/api/server/server_properties`, {
+            name: location.state.name,
+            server_properties: properties
+        })
+        console.log('done send')
     }
 
     if(!properties) {
         return <div>Loading...</div>
     }
-    console.log(properties['max-players'])
 
     return (    
         <div className="setting-server-page">
