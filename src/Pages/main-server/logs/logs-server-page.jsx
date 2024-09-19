@@ -3,39 +3,56 @@ import { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 
+
+
 export default function LogsServerPage() {
     const location = useLocation()
     const [ logs, setLogs ] = useState([]);
     const [ command, setCommand ] = useState(null);
-    const socket = io('http://localhost:3333');
+
+
+    // window.addEventListener('beforeunload', () => {
+    //     socket.disconnect();
+    //     console.log('socket disconnect');
+    // })
+
+    // window.addEventListener('unload', () => {
+    //     socket.disconnect();
+    //     console.log('socket. disconnect');
+    // })
 
 
     useEffect(() => { 
-        socket.emit("join", location.state.name);
+        const socket = io('http://localhost:3333');
+
         axios.get('http://localhost:3333/api/server/logView', {
             params: {
                 name: location.state.name,
                 containerId: location.state.containerId
             }
         })
-        console.log(location.state);
-           
-        
 
-       socket.on("log", (log_) => {
-        setLogs((prevState) => [...prevState, log_.toString()]);
-       //onsole.log(logs);
-       })
-       console.log('ww');
-       socket.on("log-end", (log_) => {
-        //setLogs(logs.push(logs));
-        setLogs((prevState) => [...prevState, log_.toString()]);
-        console.log('end');
-       })
-       return () => {
-        socket.disconnect();
-       }
-    }, [location.state.name, location.state.containerId])
+        socket.emit("join", location.state.name);
+        
+        socket.off("log");
+        socket.on("log", (log_) => {
+            setLogs((prevState) => [...prevState, log_.toString()]);
+            console.log(log_);
+        })
+
+    //    console.log('ww');
+    //    socket.off("log-end");
+    //    socket.on("log-end", (log_) => {
+    //     //setLogs(logs.push(logs));
+    //     setLogs((prevState) => [...prevState, log_.toString()]);
+    //     console.log('end');
+    //    })
+    
+        return () => {
+            socket.disconnect();
+            console.log('Disconnect socket')
+        }
+    }, [])
 
     useEffect(() => { 
         //setLogs((prevState) => [...prevState, "log_.toString()"]);

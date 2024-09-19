@@ -2,7 +2,7 @@
 //import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom"
 
 export default function MainServerPage() {
@@ -11,6 +11,17 @@ export default function MainServerPage() {
 
     const [ isRun, setIsRun ] = useState(false);
 
+    useEffect(() => {
+        axios.get('http://localhost:3333/api/server/status', {
+            params: {
+                containerId: location.state.containerId
+            }
+        }).then((res) => {
+            setIsRun(res.data.isRunning)
+        })
+
+        
+    }, [])
 
     function startServer() {
         axios.post('http://localhost:3333/api/server/start', location.state);
