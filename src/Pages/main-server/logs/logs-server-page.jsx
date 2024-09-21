@@ -10,27 +10,13 @@ export default function LogsServerPage() {
     const [ logs, setLogs ] = useState([]);
     const [ command, setCommand ] = useState(null);
 
-
-    // window.addEventListener('beforeunload', () => {
-    //     socket.disconnect();
-    //     console.log('socket disconnect');
-    // })
-
-    // window.addEventListener('unload', () => {
-    //     socket.disconnect();
-    //     console.log('socket. disconnect');
-    // })
-
-
+    // axios.get('http://localhost:3333/api/server/logView', {
     useEffect(() => { 
-        const socket = io('http://localhost:3333');
-
-        axios.get('http://localhost:3333/api/server/logView', {
-            params: {
-                name: location.state.name,
-                containerId: location.state.containerId
+        const socket = io('http://localhost:3333',
+            {
+                transports: ["websocket"]
             }
-        })
+        );
 
         socket.emit("join", location.state.name);
         
@@ -38,26 +24,12 @@ export default function LogsServerPage() {
         socket.on("log", (log_) => {
             setLogs((prevState) => [...prevState, log_.toString()]);
             console.log(log_);
-        })
-
-    //    console.log('ww');
-    //    socket.off("log-end");
-    //    socket.on("log-end", (log_) => {
-    //     //setLogs(logs.push(logs));
-    //     setLogs((prevState) => [...prevState, log_.toString()]);
-    //     console.log('end');
-    //    })
-    
+        })  
         return () => {
             socket.disconnect();
-            console.log('Disconnect socket')
+            setLogs([]);
         }
     }, [])
-
-    useEffect(() => { 
-        //setLogs((prevState) => [...prevState, "log_.toString()"]);
-        console.log(logs)
-    }, []);
 
     function onChangeCommand(e) {
         setCommand(e.target.value);
