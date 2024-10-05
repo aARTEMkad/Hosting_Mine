@@ -20,11 +20,28 @@ export default function LogsServerPage() {
 
         socket.emit("join", location.state.name);
         
-        socket.off("log");
         socket.on("log", (log_) => {
+            console.log('qerqwr');
             setLogs((prevState) => [...prevState, log_.toString()]);
             console.log(log_);
         })  
+
+        if(location.state.isRun) {
+            axios.get(`http://localhost:3333/api/server/logView`, {
+                params: {
+                    name: location.state.name
+                }
+            })
+            .then(res => {
+                res.data.logs.forEach(element => {
+                    setLogs((prevState) => [...prevState, element])
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
+        
         return () => {
             socket.disconnect();
             setLogs([]);
@@ -36,6 +53,7 @@ export default function LogsServerPage() {
     }
 
     function sendCommand() {
+        console.log('tt');
         axios.post('http://localhost:3333/api/server/send_command', {
             containerId: location.state.containerId,
             command: command,
@@ -44,13 +62,13 @@ export default function LogsServerPage() {
 
     return (
         <div className="logs-server-page">
-            <p>{logs.map((value, index) => {
+            <div>{logs.map((value, index) => {
                 return (
                     <div key={index} >
                         {index} - {value}
                     </div>
                 )
-            })}</p>
+            })}</div>
             <form onSubmit={(e) => { e.preventDefault()}} >
                 <input type="text" onChange={onChangeCommand} />
                 <button type="sumbit" onClick={sendCommand}>send</button>
