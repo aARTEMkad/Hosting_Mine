@@ -13,6 +13,7 @@ import CreateServerPage from './Pages/Create-server-page/create-server-page';
 import MainServerPage from './Pages/main-server/main-server-page';
 import LogsServerPage from './Pages/main-server/logs/logs-server-page';
 import SettingServerPage from './Pages/main-server/setting/settings-server-page';
+import FileManagerPage from './Pages/main-server/file-manager-server';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,11 @@ const router = createBrowserRouter([
   {
     path: "/server-logs",
     element: <LogsServerPage/>,
+    errorElement: <ErrorPage/>
+  },
+  {
+    path: "/file-manager-server",
+    element: <FileManagerPage/>,
     errorElement: <ErrorPage/>
   }
 ])

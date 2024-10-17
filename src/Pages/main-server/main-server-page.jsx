@@ -68,6 +68,9 @@ export default function MainServerPage() {
                     <li>
                         <Link to="/server-logs" state={{ name, containerId, isRun }}>Logs</Link>
                     </li>
+                    <li>
+                        <Link to="/file-manager-server" state={{ name, containerId, isRun }}>File manager</Link>
+                    </li>
                     
                 </ul>
             </nav>
