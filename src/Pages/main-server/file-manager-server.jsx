@@ -10,10 +10,8 @@ export default function FileManagerPage() {
 
     const { state } = useLocation()
     const [ listFile, setListFile ] = useState([]);
-    console.log(state);
 
     console.log(currentPath);
-
 
     useEffect(() => {
         currentPath = '';
@@ -26,6 +24,7 @@ export default function FileManagerPage() {
             console.log(res.data.data);
             currentPath += state.name
             setListFile(res.data.data);
+            console.log(currentPath);
         })
         
     },[])
@@ -33,9 +32,9 @@ export default function FileManagerPage() {
 
 
 
-    function handleInfoFile(info, fileName) {
+    function handleInfoFile(info, newPath) {
         setListFile(info);
-        currentPath += `/${fileName}`
+        currentPath = newPath;
     }
 
 

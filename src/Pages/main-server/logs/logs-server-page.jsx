@@ -17,7 +17,7 @@ export default function LogsServerPage() {
                 transports: ["websocket"]
             }
         );
-
+        console.log(socket);
         socket.emit("join", location.state.name);
         
         socket.on("log", (log_) => {
