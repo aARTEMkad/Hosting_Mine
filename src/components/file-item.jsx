@@ -1,7 +1,7 @@
 import axios from "axios";
 //import { useNavigate } from "react-router-dom";
 
-export default function FileItem({ filename, onInfoFile, pathFile }) {
+export default function FileItem({ nameServer, filename, onInfoFile, pathFile }) {
 
     function onClickFile() {
         console.log(`Filename: '${filename}' pathFIle: ${pathFile}`)
@@ -11,7 +11,7 @@ export default function FileItem({ filename, onInfoFile, pathFile }) {
             console.log(pathFile.lastIndexOf("/"));
             axios.get("http://localhost:3333/api/server/fileManager", {
                 params: {
-                    name: pathFile.substring(0, pathFile.lastIndexOf('/'))
+                    name: nameServer + "/" + pathFile.substring(0, pathFile.lastIndexOf('/'))
                 }
             })
             .then((res) => {
@@ -22,7 +22,7 @@ export default function FileItem({ filename, onInfoFile, pathFile }) {
             console.log(filename.toString('utf8').indexOf('.'));
             axios.get("http://localhost:3333/api/server/infoFile", {
                 params: {
-                    name: pathFile,
+                    name: nameServer + "/" + pathFile,
                     file: filename
                 }
             })
@@ -33,7 +33,7 @@ export default function FileItem({ filename, onInfoFile, pathFile }) {
         } else { // GO
             axios.get("http://localhost:3333/api/server/fileManager", {
                 params: {
-                    name: pathFile+`/${filename}`
+                    name: nameServer + "/" + pathFile+`/${filename}`
                 }
             })
             .then((res) => {
