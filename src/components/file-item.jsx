@@ -54,7 +54,21 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
     }
 
 
+// -- prv
+    function relSite() {
+        console.log('rel');
+        axios.get("http://localhost:3333/api/server/fileManager", {
+            params: {
+                name: nameServer + "/" + pathFile
+            }
+        })
+        .then((res) => {
+            console.log(res.data.data);
+            onInfoFile(res.data.data, pathFile); // ---------
+        })
+    }
 
+//
 
 
 
@@ -77,6 +91,23 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
         console.log("Clicked menu");
     }
 
+    function onClickDeleteFile() {
+        console.log(pathFile);
+        axios.delete('http://localhost:3333/api/server/file', {
+            params: {
+                name: nameServer,
+                file: pathFile !== "" ? pathFile + '/' + filename: filename 
+            }
+        })
+        .then(res => {
+            console.log('delete');
+            relSite();
+        })
+        .catch(err => {
+            console.log(`Can't delete file: ${err}`);
+        }) 
+    }
+
 
     return (
         <div id="serverItem" 
@@ -92,7 +123,7 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
                 <ul>
                     <li onClick={onClickValueFile}>Open</li> {/*Get value file */}
                     <li onClick={handleMenuClick}>ACtion 2</li>
-                    <li onClick={handleMenuClick}>ACtion 3</li>
+                    <li onClick={onClickDeleteFile}>Delete 3</li>
                 </ul>
             )}
         </div>

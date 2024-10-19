@@ -32,7 +32,21 @@ export default function FileManagerPage() {
     },[])
 
 
+// -- prv
+function relSite() {
+    console.log('rel');
+    axios.get("http://localhost:3333/api/server/fileManager", {
+        params: {
+            name: state.name + "/" + currentPath
+        }
+    })
+    .then((res) => {
+        console.log(res.data.data);
+        setListFile(res.data.data); // ---------
+    })
+}
 
+//
 
     function handleInfoFile(info, newPath) {
         setListFile(info);
@@ -43,9 +57,10 @@ export default function FileManagerPage() {
 
 
     function onSumbitFile() {
+        console.log(currentPath);
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('dir', currentPath);
+        formData.append('dir', state.name + currentPath);
         const config = {
             headers: {
               'content-type': 'multipart/form-data',
@@ -54,6 +69,7 @@ export default function FileManagerPage() {
         axios.post('http://localhost:3333/api/server/file/upload', formData, config)
         .then(res => {
             console.log("File upload")
+            relSite();
         })
         .catch(err => {
             console.log(`Error upload file: ${err}`);
