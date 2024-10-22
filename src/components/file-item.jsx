@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function FileItem({ nameServer, filename, onInfoFile, pathFile }) {
 
     function onClickFile() {
         console.log(`Filename: '${filename}' pathFIle: ${pathFile}`)
         
-        if(filename == '..') { // return before path
+        if(filename === '..') { // return before path
             console.log(pathFile.substring(0, pathFile.lastIndexOf('/')));
             console.log(pathFile.lastIndexOf("/"));
             axios.get("http://localhost:3333/api/server/fileManager", {
@@ -34,8 +34,9 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
         }
     }
 
+    const navigate = useNavigate();
 
-    function onClickValueFile() {
+    function onClickValueFile() { // get info file
         if(filename.toString('utf8').indexOf('.') !== -1) { // Get value in file. Do open file with two '.'
             console.log(filename.toString('utf8').indexOf('.'));
             axios.get("http://localhost:3333/api/server/infoFile", {
@@ -46,7 +47,13 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
             })
             .then((res) => {
                 console.log(res.data.data);
-                
+                navigate('/edit-file-value', {
+                    state: {
+                        data: res.data.data,
+                        filename: filename,
+                        path: nameServer + "/" + pathFile
+                    }
+                });
             })
         } else {
             console.log(`the isn't file`);

@@ -14,6 +14,7 @@ import MainServerPage from './Pages/main-server/main-server-page';
 import LogsServerPage from './Pages/main-server/logs/logs-server-page';
 import SettingServerPage from './Pages/main-server/setting/settings-server-page';
 import FileManagerPage from './Pages/main-server/file-manager-server';
+import TextEditorFile from './Pages/main-server/text-editor-file-page';
 
 const router = createBrowserRouter([
   {
@@ -45,7 +46,13 @@ const router = createBrowserRouter([
     path: "/file-manager-server",
     element: <FileManagerPage/>,
     errorElement: <ErrorPage/>
+  },
+  {
+    path: "/edit-file-value",
+    element: <TextEditorFile/>,
+    errorElement: <ErrorPage/>
   }
+  
 ])
 
 
