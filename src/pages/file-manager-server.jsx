@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import FileItem from "../../components/file-item";
+
+// Components
+import FileItem from "../components/file-item";
 
 
 const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT

@@ -2,8 +2,9 @@ import axios from "axios"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 
-import ServerItem from "../../components/server-item";
 
+// Components
+import ServerItem from "../components/server-item"
 
 const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
 const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT

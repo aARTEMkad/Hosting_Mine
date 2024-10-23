@@ -7,14 +7,14 @@ import { createBrowserRouter,
 
 // Pages
 //import App from './App';
-import ErrorPage from './Pages/Error-page/error-page';
-import ListServers from './Pages/List-server/list-server-page';
-import CreateServerPage from './Pages/Create-server-page/create-server-page';
-import MainServerPage from './Pages/main-server/main-server-page';
-import LogsServerPage from './Pages/main-server/logs/logs-server-page';
-import SettingServerPage from './Pages/main-server/setting/settings-server-page';
-import FileManagerPage from './Pages/main-server/file-manager-server';
-import TextEditorFile from './Pages/main-server/text-editor-file-page';
+import ErrorPage from './pages/error-page'
+import ListServers from './pages/list-server-page';
+import CreateServerPage from './pages/create-server-page';
+import MainServerPage from './pages/main-server-page';
+import LogsServerPage from './pages/logs-server-page';
+import SettingServerPage from './pages/settings-server-page';
+import FileManagerPage from './pages/file-manager-server';
+import TextEditorFile from './pages/text-editor-file-page';
 
 const router = createBrowserRouter([
   {
