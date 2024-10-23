@@ -3,6 +3,9 @@ import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom";
 
 
+const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+
 
 export default function SettingServerPage() {
     const location = useLocation()
@@ -10,7 +13,7 @@ export default function SettingServerPage() {
     //const [ updateProperties, setUpdateProperties ] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:3333/api/server/server_properties`, {
+        axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/server_properties`, {
             params: {
                 name: location.state.name
             }
@@ -41,7 +44,7 @@ export default function SettingServerPage() {
     }
     
     function onSaveInformation() {
-        axios.post(`http://localhost:3333/api/server/server_properties`, {
+        axios.post(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/server_properties`, {
             name: location.state.name,
             server_properties: properties
         })

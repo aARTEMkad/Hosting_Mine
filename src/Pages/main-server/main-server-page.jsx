@@ -5,6 +5,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom"
 
+const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+
 export default function MainServerPage() {
     const location = useLocation();
     const { _id, name, memory, cpus, ports, core, version, javaVersion, containerId } = location.state
@@ -12,7 +15,7 @@ export default function MainServerPage() {
     const [ isRun, setIsRun ] = useState(false);
 
     useEffect(() => {
-        axios.get('http://localhost:3333/api/server/status', {
+        axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/status`, {
             params: {
                 containerId: location.state.containerId
             }
@@ -24,20 +27,20 @@ export default function MainServerPage() {
     }, [])
 
     function startServer() {
-        axios.post('http://localhost:3333/api/server/start', location.state);
+        axios.post(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/start`, location.state);
         setIsRun(true);
     }
 
     function restartServer() {
         if(isRun) {
-            axios.post('http://localhost:3333/api/server/restart', location.state);
+            axios.post(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/restart`, location.state);
         } else {
             console.log('don\'t restart server' )
         }
     }
 
     function stopServer() {
-        axios.post('http://localhost:3333/api/server/stop', location.state);
+        axios.post(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/stop`, location.state);
         setIsRun(false);
     }
 

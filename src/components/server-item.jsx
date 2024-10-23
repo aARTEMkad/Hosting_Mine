@@ -1,13 +1,16 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+
 export default function ServerItem({ server }) {
     const navigate = useNavigate();
 
     console.log(server);
     
     function deleteServer() {
-        axios.delete(`http://localhost:3333/api/server/${server._id}`)
+        axios.delete(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/${server._id}`)
         window.location.reload();
     }
 

@@ -5,6 +5,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom"
 
+const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+
 export default function TextEditorFile() {
     const { filename, path, data } = useLocation().state;
     const [ dataFile, setDataFile] = useState('');
@@ -22,7 +25,7 @@ export default function TextEditorFile() {
     }
 
     function onSaveButton() {
-        axios.put('http://localhost:3333/api/server/saveFile', 
+        axios.put(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/saveFile`, 
             { 
                 data: dataFile, 
                 path: path,

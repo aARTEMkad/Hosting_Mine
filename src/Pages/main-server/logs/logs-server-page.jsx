@@ -3,6 +3,8 @@ import { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 
+const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
 
 
 export default function LogsServerPage() {
@@ -12,7 +14,7 @@ export default function LogsServerPage() {
 
     // axios.get('http://localhost:3333/api/server/logView', {
     useEffect(() => { 
-        const socket = io('http://localhost:3333',
+        const socket = io(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}`,
             {
                 transports: ["websocket"]
             }
@@ -27,7 +29,7 @@ export default function LogsServerPage() {
         })  
 
         if(location.state.isRun) {
-            axios.get(`http://localhost:3333/api/server/logView`, {
+            axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/logView`, {
                 params: {
                     name: location.state.name
                 }
@@ -54,7 +56,7 @@ export default function LogsServerPage() {
 
     function sendCommand() {
         console.log('tt');
-        axios.post('http://localhost:3333/api/server/send_command', {
+        axios.post(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/send_command`, {
             containerId: location.state.containerId,
             command: command,
         })

@@ -5,16 +5,16 @@ import { useNavigate } from "react-router-dom";
 import ServerItem from "../../components/server-item";
 
 
+const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
 
 
 export default function ListServerPage() {
     const [ servers, setServers ] = useState([]);
     const navigate = useNavigate();
 
-
-
     useEffect(() => {
-        axios.get('http://localhost:3333/api/server')
+        axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server`)
         .then( res => {
             console.log(res.data)
             setServers(res.data);

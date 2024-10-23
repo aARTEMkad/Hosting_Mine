@@ -2,6 +2,10 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+
+
 export default function FileItem({ nameServer, filename, onInfoFile, pathFile }) {
 
     function onClickFile() {
@@ -10,7 +14,7 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
         if(filename === '..') { // return before path
             console.log(pathFile.substring(0, pathFile.lastIndexOf('/')));
             console.log(pathFile.lastIndexOf("/"));
-            axios.get("http://localhost:3333/api/server/fileManager", {
+            axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/fileManager`, {
                 params: {
                     name: nameServer + "/" + pathFile.substring(0, pathFile.lastIndexOf('/'))
                 }
@@ -20,7 +24,7 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
                 onInfoFile(res.data.data, pathFile.substring(0, pathFile.lastIndexOf('/'))); // ---------
             })
         } else if((filename.indexOf(".") === 0 && filename.lastIndexOf(".") === 0) || filename.indexOf(".") === -1) { // GO
-            axios.get("http://localhost:3333/api/server/fileManager", {
+            axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/fileManager`, {
                 params: {
                     name: nameServer + "/" + pathFile+`/${filename}`
                 }
@@ -39,7 +43,7 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
     function onClickValueFile() { // get info file
         if(filename.toString('utf8').indexOf('.') !== -1) { // Get value in file. Do open file with two '.'
             console.log(filename.toString('utf8').indexOf('.'));
-            axios.get("http://localhost:3333/api/server/infoFile", {
+            axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/infoFile`, {
                 params: {
                     name: nameServer + "/" + pathFile,
                     file: filename
@@ -64,7 +68,7 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
 // -- prv
     function relSite() {
         console.log('rel');
-        axios.get("http://localhost:3333/api/server/fileManager", {
+        axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/fileManager`, {
             params: {
                 name: nameServer + "/" + pathFile
             }
@@ -100,7 +104,7 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
 
     function onClickDeleteFile() {
         console.log(pathFile);
-        axios.delete('http://localhost:3333/api/server/file', {
+        axios.delete(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/file`, {
             params: {
                 name: nameServer,
                 file: pathFile !== "" ? pathFile + '/' + filename: filename 

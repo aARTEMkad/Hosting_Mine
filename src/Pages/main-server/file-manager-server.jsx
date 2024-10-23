@@ -4,6 +4,9 @@ import { useLocation } from "react-router-dom";
 import FileItem from "../../components/file-item";
 
 
+const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+
 let currentPath = ''
 
 export default function FileManagerPage() {
@@ -17,7 +20,7 @@ export default function FileManagerPage() {
 
     useEffect(() => {
         currentPath = '';
-        axios.get("http://localhost:3333/api/server/fileManager", {
+        axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/fileManager`, {
             params: {
                 name: state.name
             }
@@ -35,7 +38,7 @@ export default function FileManagerPage() {
 // -- prv
 function relSite() {
     console.log('rel');
-    axios.get("http://localhost:3333/api/server/fileManager", {
+    axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/fileManager`, {
         params: {
             name: state.name + "/" + currentPath
         }
@@ -66,7 +69,7 @@ function relSite() {
               'content-type': 'multipart/form-data',
             },
           };
-        axios.post('http://localhost:3333/api/server/file/upload', formData, config)
+        axios.post(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/file/upload`, formData, config)
         .then(res => {
             console.log("File upload")
             relSite();
