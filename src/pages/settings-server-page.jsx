@@ -1,11 +1,8 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom";
 
-
-const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
-const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
-
+// Service
+import serverService from "../services/apiService";
 
 export default function SettingServerPage() {
     const location = useLocation()
@@ -13,26 +10,13 @@ export default function SettingServerPage() {
     //const [ updateProperties, setUpdateProperties ] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/server_properties`, {
-            params: {
-                name: location.state.name
-            }
-        })
-        .then(res => {
-            console.log(res);
-            setProperties(res.data.properties);
-            //setUpdateProperties(res.data.properties);
-        })
-        .catch((err) => {   
-            console.log(err);
+        serverService.getServerProperties(location.state.name)
+        .then(serverProperties => {
+            setProperties(serverProperties);
+        }).catch(err => {
+            console.log(`function useEffect error: ${err}`)
         })
     }, [location.state.name])
-    
-
-
-    useEffect(() => {
-        console.log(properties)
-    }) // ----
 
     function onChangeProperties(key, value) {
         console.log(value); 
@@ -40,15 +24,10 @@ export default function SettingServerPage() {
             ...prevState,
             [key]: value.toString()
         }))
-       // console.log(properties);
     }
     
     function onSaveInformation() {
-        axios.post(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/server_properties`, {
-            name: location.state.name,
-            server_properties: properties
-        })
-        console.log('done send')
+        serverService.saveServerProperties(location.state.name, properties);
     }
 
     if(!properties) {

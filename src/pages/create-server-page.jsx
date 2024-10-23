@@ -1,10 +1,9 @@
-import axios from "axios"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
-//import { useNavigate } from "react-router-dom";
 
-const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
-const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+// Service
+import serverService from "../services/apiService";
+
 
 export default function CreateServerPage() {
     const navigate = useNavigate();
@@ -20,7 +19,7 @@ export default function CreateServerPage() {
 
 
     function sumbitCreateServer() {
-        axios.post(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server`, {
+        serverService.createServer({
             name: nameServ,
             memory: memoryServ,
             cpus: cpusServ,
@@ -29,7 +28,6 @@ export default function CreateServerPage() {
             version: versionServ,
             javaVersion: javaVersionServ
         })
-
         navigate('/')
     }
 

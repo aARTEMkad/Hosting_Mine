@@ -1,12 +1,6 @@
-//import { useState } from "react"
-//import { useNavigate } from "react-router-dom";
-
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom"
-
-const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
-const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+import serverService from "../services/apiService";
 
 export default function MainServerPage() {
     const location = useLocation();
@@ -15,32 +9,27 @@ export default function MainServerPage() {
     const [ isRun, setIsRun ] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/status`, {
-            params: {
-                containerId: location.state.containerId
-            }
-        }).then((res) => {
-            setIsRun(res.data.isRunning)
+        serverService.getStatusServer(location.state.containerId)
+        .then(statusServer => {
+            setIsRun(statusServer);
         })
-
-        
     }, [])
 
     function startServer() {
-        axios.post(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/start`, location.state);
+        serverService.startServer(location.state);
         setIsRun(true);
     }
 
     function restartServer() {
         if(isRun) {
-            axios.post(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/restart`, location.state);
+            serverService.restartServer(location.state);
         } else {
-            console.log('don\'t restart server' )
+            console.log('don\'t restart server is not run' )
         }
     }
 
     function stopServer() {
-        axios.post(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/stop`, location.state);
+        serverService.stopServer()
         setIsRun(false);
     }
 

@@ -1,12 +1,9 @@
-//import { useState } from "react"
-//import { useNavigate } from "react-router-dom";
-
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom"
 
-const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
-const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+// Service
+import fileManagerService from "../services/fileManagerService";
+
 
 export default function TextEditorFile() {
     const { filename, path, data } = useLocation().state;
@@ -15,7 +12,7 @@ export default function TextEditorFile() {
     const navigate = useNavigate();
 
 
-    useEffect(e => {
+    useEffect(() => {
         setDataFile(data);
     }, [data])
 
@@ -25,18 +22,11 @@ export default function TextEditorFile() {
     }
 
     function onSaveButton() {
-        axios.put(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/saveFile`, 
-            { 
-                data: dataFile, 
-                path: path,
-                file: filename
-            })
-            .then((res) => {
-                console.log('Save information');
-            })
-            .catch(err => {
-                console.log(`error save information: ${err}`);
-            })
+        fileManagerService.updateInformationFile({ 
+            data: dataFile, 
+            path: path,
+            file: filename
+        });
     } 
 
     function onResetButton() {

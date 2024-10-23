@@ -1,13 +1,11 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 // Components
 import FileItem from "../components/file-item";
 
-
-const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
-const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+// Service
+import fileManagerService from "../services/fileManagerService";
 
 let currentPath = ''
 
@@ -22,32 +20,21 @@ export default function FileManagerPage() {
 
     useEffect(() => {
         currentPath = '';
-        axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/fileManager`, {
-            params: {
-                name: state.name
-            }
-        })
-        .then((res) => {
-            console.log(res.data.data);
-            //currentPath += state.name
-            setListFile(res.data.data);
-            console.log(currentPath);
-        })
-        
-    },[])
+
+        fileManagerService.getDir(state.name)
+        .then(data => {
+            setListFile(data !== -1 ? data : []);
+        }) 
+    },[state.name])
 
 
 // -- prv
 function relSite() {
     console.log('rel');
-    axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/fileManager`, {
-        params: {
-            name: state.name + "/" + currentPath
-        }
-    })
-    .then((res) => {
-        console.log(res.data.data);
-        setListFile(res.data.data); // ---------
+    
+    fileManagerService.getDir(state.name, currentPath)
+    .then(data => {
+        setListFile(data !== -1 ? data : []);
     })
 }
 
@@ -71,13 +58,11 @@ function relSite() {
               'content-type': 'multipart/form-data',
             },
           };
-        axios.post(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/file/upload`, formData, config)
-        .then(res => {
-            console.log("File upload")
+
+
+        fileManagerService.uploadFile(formData, config)
+        .then(() => {
             relSite();
-        })
-        .catch(err => {
-            console.log(`Error upload file: ${err}`);
         })
     }
 

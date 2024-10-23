@@ -1,4 +1,3 @@
-import axios from "axios"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 
@@ -6,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 // Components
 import ServerItem from "../components/server-item"
 
-const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
-const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+// Service
+import serverService from "../services/apiService";
 
 
 export default function ListServerPage() {
@@ -15,16 +14,13 @@ export default function ListServerPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server`)
-        .then( res => {
-            console.log(res.data)
-            setServers(res.data);
+        serverService.getListServers()
+        .then(data => {
+            setServers(data);
         })
         .catch(err => {
             console.log(err);
         })
-
-        
     }, [])
 
     function goToCreateServer() {

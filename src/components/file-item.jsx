@@ -1,9 +1,8 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
-const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+// Service
+import fileManagerService from "../services/fileManagerService";
 
 
 export default function FileItem({ nameServer, filename, onInfoFile, pathFile }) {
@@ -14,24 +13,15 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
         if(filename === '..') { // return before path
             console.log(pathFile.substring(0, pathFile.lastIndexOf('/')));
             console.log(pathFile.lastIndexOf("/"));
-            axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/fileManager`, {
-                params: {
-                    name: nameServer + "/" + pathFile.substring(0, pathFile.lastIndexOf('/'))
-                }
-            })
-            .then((res) => {
-                console.log(res.data.data);
-                onInfoFile(res.data.data, pathFile.substring(0, pathFile.lastIndexOf('/'))); // ---------
+
+            fileManagerService.getDir(nameServer, `/${pathFile.substring(0, pathFile.lastIndexOf('/'))}`)
+            .then(data => {
+                onInfoFile(data, pathFile.substring(0, pathFile.lastIndexOf('/')))
             })
         } else if((filename.indexOf(".") === 0 && filename.lastIndexOf(".") === 0) || filename.indexOf(".") === -1) { // GO
-            axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/fileManager`, {
-                params: {
-                    name: nameServer + "/" + pathFile+`/${filename}`
-                }
-            })
-            .then((res) => {
-                console.log(res.data.data);
-                onInfoFile(res.data.data, pathFile+`/${filename}`); // ---------
+            fileManagerService.getDir(nameServer, `/${pathFile}/${filename}`)
+            .then(data => {
+                onInfoFile(data, pathFile+`/${filename}`); // ---------
             })
         } else {
             console.log(`don't open directory because aren't directory`)
@@ -41,23 +31,19 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
     const navigate = useNavigate();
 
     function onClickValueFile() { // get info file
+        console.log("adda");
         if(filename.toString('utf8').indexOf('.') !== -1) { // Get value in file. Do open file with two '.'
             console.log(filename.toString('utf8').indexOf('.'));
-            axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/infoFile`, {
-                params: {
-                    name: nameServer + "/" + pathFile,
-                    file: filename
-                }
-            })
-            .then((res) => {
-                console.log(res.data.data);
-                navigate('/edit-file-value', {
+            
+            fileManagerService.getInfoFile(nameServer, pathFile, filename)
+            .then(data => {
+                navigate("/edit-file-value", {
                     state: {
-                        data: res.data.data,
+                        data: data,
                         filename: filename,
                         path: nameServer + "/" + pathFile
                     }
-                });
+                })
             })
         } else {
             console.log(`the isn't file`);
@@ -67,15 +53,9 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
 
 // -- prv
     function relSite() {
-        console.log('rel');
-        axios.get(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/fileManager`, {
-            params: {
-                name: nameServer + "/" + pathFile
-            }
-        })
-        .then((res) => {
-            console.log(res.data.data);
-            onInfoFile(res.data.data, pathFile); // ---------
+        fileManagerService.getDir(nameServer, pathFile)
+        .then(data => {
+            onInfoFile(data, pathFile);
         })
     }
 
@@ -103,20 +83,7 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
     }
 
     function onClickDeleteFile() {
-        console.log(pathFile);
-        axios.delete(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/file`, {
-            params: {
-                name: nameServer,
-                file: pathFile !== "" ? pathFile + '/' + filename: filename 
-            }
-        })
-        .then(res => {
-            console.log('delete');
-            relSite();
-        })
-        .catch(err => {
-            console.log(`Can't delete file: ${err}`);
-        }) 
+        fileManagerService.deleteFile(nameServer, filename, pathFile, relSite);
     }
 
 
