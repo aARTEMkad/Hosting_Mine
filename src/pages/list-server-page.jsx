@@ -31,7 +31,8 @@ export default function ListServerPage() {
     return (
         <div id="list-server-page">
             <h1>List servers</h1>
-            
+            <button type="button" onClick={goToCreateServer} >Add server</button>
+
             
             
             
@@ -41,9 +42,6 @@ export default function ListServerPage() {
                         <ServerItem server={server} ></ServerItem>
                     </li>
                 ))}
-                <li>
-                    <button type="button" onClick={goToCreateServer} >Add server</button>
-                </li>
             </ul>
         </div>
     )

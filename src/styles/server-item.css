@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+.serverItem {
+    display: grid;
+    border-radius: 8px;
+    grid-template-columns: [first] 36px [main] auto [delete] 36px;
+    grid-template-rows: [first] 20px [main] auto [specs] 36px;
+
+    width: 450px;
+    height: 110px;
+    background-color: #2C2C2E;
+}
+
+.serverItem * {
+    font-family: 'Kanit', sans-serif
+}
+
+
+.nameServer {
+    margin: 4px 0 4px 0px;
+    grid-column: 2;
+    grid-row: 1;
+    text-align: center;
+    font-size: 20px;
+    color: #FFFFFF;
+}
+
+.serverDelete {
+    grid-column: 3;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    padding: 0px;
+    border: 0px;
+    border-radius: 0px 8px 8px 0px;
+    background-color: #D32F2F;
+}
+
+.serverStatus {    
+    border-radius: 8px 0px 0px 8px;
+    grid-column-start: 1;
+    grid-row-start: 1;
+    grid-row-end: 4;
+}
+
+.serverDescription {
+    grid-column-start: 2;
+    grid-row-start: 2;
+    margin: 5px 20px 5px 20px;
+    color: #FFFFFF;
+}
+
+.serverItemTxt {
+    display: flex;
+    margin: -4px 60px 0px auto;
+    gap: 20px;
+    font-size: 15px;
+    grid-column-start: 2;
+    grid-row-start: 3;
+    color: #FFFFFF;
+}

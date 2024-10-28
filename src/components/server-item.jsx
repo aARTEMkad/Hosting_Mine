@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+// CSS
+import '../styles/server-item.css'
+
 const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
 const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
 
@@ -19,13 +22,20 @@ export default function ServerItem({ server }) {
     }
 
     return (
-        <div id="serverItem" onClick={OpenServer}>
-            <h1>{server.name}</h1>
-            <p>version: {server.version}</p>
-            <p>core: {server.core}</p>
-            <p>port: {server.ports}</p>
+        <div className="serverItem" onClick={OpenServer}>
+            
+            <div className="serverStatus" style={{background: "#D32F2F"}}/>
+            
+            <p className="nameServer">{server.name}</p>
+            <p className="serverDescription">Description: none</p>
 
-            <button onClick={deleteServer}>Delete</button>
+            <div className="serverItemTxt">     
+                <p>Version: {server.version}</p>
+                <p>Core: {server.core}</p>
+                <p>Port: {server.ports}</p>
+            </div>
+
+            <button className="serverDelete" onClick={deleteServer}></button>
         </div>
     );
 };
