@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.listServerPage * {
+    font-family: 'Kanit', sans-serif;
+}
+
+.namePage {
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    color: #525787;
+    font-size: 64px;
+}
+
+.container {
+    height: 30vh;
+}
+
+.two-column-list {
+    padding: 0px;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: auto auto; /* Два рівні стовпці */
+    gap: 17px 20px; /* Відстань між елементами */
+}
+
+.two-column-list li {
+    /* height: 110px; */
+    list-style: none;
+    text-align: center;
+}
+
+.create-button {
+    font-size: 16px;
+    margin-left: 47ch;
+    background-color: #A5D6A7;
+    border-radius: 15px;
+    border: 0px;
+    width: 100px;
+    height: 30px;
+}

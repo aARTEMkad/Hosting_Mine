@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 
+// CSS
+import '../styles/list-server.css'
 
 // Components
 import ServerItem from "../components/server-item"
@@ -29,20 +31,19 @@ export default function ListServerPage() {
 
 
     return (
-        <div id="list-server-page">
-            <h1>List servers</h1>
-            <button type="button" onClick={goToCreateServer} >Add server</button>
+        <div className="listServerPage">
+            <p className="namePage">Servers</p>
 
-            
-            
-            
-            <ul>
-                {servers.map(server => (
-                    <li key={server._id} >
-                        <ServerItem server={server} ></ServerItem>
-                    </li>
-                ))}
-            </ul>
+            <div className="container" >
+                <button className="create-button" type="button" onClick={goToCreateServer} >Create</button>
+                <ul className="two-column-list">
+                    {servers.map(server => (
+                        <li key={server._id} >
+                            <ServerItem server={server} ></ServerItem>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     )
 }

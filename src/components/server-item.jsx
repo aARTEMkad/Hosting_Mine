@@ -1,20 +1,30 @@
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 // CSS
 import '../styles/server-item.css'
 
-const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_PORT
-const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
+
+// Service
+import serverService from "../services/apiService";
 
 export default function ServerItem({ server }) {
     const navigate = useNavigate();
 
-    console.log(server);
+    const [ IsRun, setIsRun ] = useState(false);
+
+    useEffect(() => {
+        serverService.getStatusServer(server.containerId)
+        .then(statusServer => {
+            setIsRun(statusServer);
+        })
+    },[])
     
     function deleteServer() {
-        axios.delete(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}/api/server/${server._id}`)
-        window.location.reload();
+        console.log('test');
+        console.log(server);
+        serverService.deleteServer(server._id);
+       // window.location.reload();
     }
 
     function OpenServer() {
@@ -24,7 +34,7 @@ export default function ServerItem({ server }) {
     return (
         <div className="serverItem" onClick={OpenServer}>
             
-            <div className="serverStatus" style={{background: "#D32F2F"}}/>
+            <div className="serverStatus" style={{background: IsRun ? "#4CAF50" : "#D32F2F"}}/>
             
             <p className="nameServer">{server.name}</p>
             <p className="serverDescription">Description: none</p>

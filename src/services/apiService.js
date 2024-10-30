@@ -50,6 +50,14 @@ class ServerService {
             console.log(`don't stopped server error: ${err}`);
         })
     }
+
+    deleteServer(idServer) {
+        axios.delete(url_API + `/server`, {
+            data: {
+                id: idServer
+            }
+        });
+    }
     
     saveServerProperties(nameServer, properties) {
         axios.post(url_API + "/server/server_properties", {

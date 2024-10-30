@@ -29,7 +29,7 @@ export default function MainServerPage() {
     }
 
     function stopServer() {
-        serverService.stopServer()
+        serverService.stopServer(location.state)
         setIsRun(false);
     }
 
