@@ -19,6 +19,7 @@ export default function FileManagerPage() {
     console.log(currentPath);
 
     useEffect(() => {
+        console.log(state.name);
         currentPath = '';
 
         fileManagerService.getDir(state.name)
@@ -42,6 +43,7 @@ function relSite() {
 
     function handleInfoFile(info, newPath) {
         setListFile(info);
+        console.log(currentPath, newPath);
         currentPath = newPath;
     }
 

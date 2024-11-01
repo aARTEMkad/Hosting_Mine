@@ -34,7 +34,7 @@ export default function FileItem({ nameServer, filename, onInfoFile, pathFile })
         console.log("adda");
         if(filename.toString('utf8').indexOf('.') !== -1) { // Get value in file. Do open file with two '.'
             console.log(filename.toString('utf8').indexOf('.'));
-            
+            console.log('hh')
             fileManagerService.getInfoFile(nameServer, pathFile, filename)
             .then(data => {
                 navigate("/edit-file-value", {

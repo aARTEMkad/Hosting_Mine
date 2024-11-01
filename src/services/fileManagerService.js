@@ -8,7 +8,7 @@ class FileManagerService {
         try {
             const res = await axios.get(url_API + "/fileManager", {
                 params: {
-                    name: serverName + path !== "" ? `/${path}` : ""
+                    name: serverName + (path !== "" ? `/${path}` : "")
                 }
             })
             return res.data.data;
@@ -29,15 +29,16 @@ class FileManagerService {
     
     async getInfoFile(nameServer, path, fileName) {
         try {
-            const res = await axios.post(url_API + "/infoFile", {
+            console.log(nameServer, path, fileName)
+            const res = await axios.get(url_API + "/infoFile", {
                 params: {
-                    name: nameServer + "/" + path,
+                    name: nameServer + (path !== "" ? `/${path}` : ""),
                     file: fileName
                 }
             })
             return res.data.data;
         } catch(err) {
-            console.log(`Error function uploadFile: ${err}`);
+            console.log(`Error function info file: ${err}`);
             return -1;
         }
     }
