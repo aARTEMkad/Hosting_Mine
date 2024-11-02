@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 // --
 import { io } from "socket.io-client";
 
 // Service
 import serverService from "../services/apiService";
+import MenuNavBar from "../components/menu-navbar";
+import ProgressBar from "../components/progress-bar";
 
 // CSS
 import '../styles/main-server.css'
-import MenuNavBar from "../components/menu-navbar";
 
 //--
 const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_ADDRESSES
@@ -20,54 +21,75 @@ export default function MainServerPage() {
 // --
     const [ logs, setLogs ] = useState([]);
 
+    const [ ramUsage, setRamUsage ] = useState(0);
+    const [ ramLimit, setRamLimit ] = useState(0);
+    const [ cpuUsage, setCpuUsage ] = useState(0);
 // --
 
     const location = useLocation();
-    const { _id, name, memory, cpus, ports, core, version, javaVersion, containerId } = location.state
+    const { name, memory, cpus, ports, core, version, javaVersion, containerId } = location.state
 
     const [ isRun, setIsRun ] = useState(false);
 
     useEffect(() => {
-        // --
-
-        const socket = io(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}`,
-            {
-                transports: ["websocket"]
-            }
-        );
-        console.log(socket);
-        socket.emit("join", location.state.name);
-        
-        socket.on("log", (log_) => {
-            console.log('qerqwr');
-            setLogs((prevState) => [...prevState, log_.toString()]);
-            console.log(log_);
-        })  
-
-
-        serverService.getStatusServer(location.state.containerId)
+        serverService.getStatusServer(containerId)
         .then(statusServer => {
             setIsRun(statusServer);
-            if(isRun) {
-                console.log('try')
-                serverService.getOldLog(location.state.name)
-                .then(logs => {
-                    if(logs !== -1) {
-                        logs.forEach(element => {
-                            setLogs((prevState) => [...prevState, element]);
-                        })
-                    }
-                })
-            }
         })
+    }, [containerId])
+
+    useEffect(() => {
+
+
        
-        
-        return () => {
-            socket.disconnect();
-            setLogs([]);
+        if(isRun) {
+            const socket = io(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}`,
+                {
+                    transports: ["websocket"]
+                }
+            );
+    
+            socket.emit("join", name);
+            
+            socket.on("log", (log_) => {
+                setLogs((prevState) => [...prevState, log_.toString()]);
+            })  
+    
+            socket.on("cpuUsage", (cpuUsage) => {
+                setCpuUsage(cpuUsage);
+                console.log(`Cpu usage; ${cpuUsage}`);
+            })
+    
+            socket.on("ramUsage", (ram) => {
+                setRamUsage(ram);
+                console.log(ram);
+            })
+    
+            socket.on("ramLimit", (_ramlimit) => {
+                setRamLimit(_ramlimit);
+                console.log(`ram limit: ${_ramlimit}`);
+            })
+
+            console.log('try')
+
+            setTimeout(3000);
+            serverService.getOldLog(name)
+            .then(logs => {
+                if(logs !== -1) {
+                    logs.forEach(element => {
+                        setLogs((prevState) => [...prevState, element]);
+                    })
+                }
+            })
+
+
+            return () => {
+                socket.disconnect();
+                setLogs([]);
+            }
         }
-        // --
     }, [isRun])
+    
 
     function startServer() {
         serverService.startServer(location.state);
@@ -87,9 +109,11 @@ export default function MainServerPage() {
     function stopServer() {
         serverService.stopServer(location.state)
         setIsRun(false);
+        setCpuUsage(0);
+        setRamUsage(0);
+        setRamLimit(0);
     }
 
-console.log(logs)
     return (
         <div className="main-server-page">
 
@@ -121,6 +145,12 @@ console.log(logs)
                        <p className="info-name">core</p> <p className="info-value">{core}</p>
                        <p className="info-name">version</p> <p className="info-value">{version} MC</p>
                        <p className="info-name">java version</p> <p className="info-value">{javaVersion} java</p>
+                    </div>
+                    <div className="server-stats">
+                        <div>CPU {cpuUsage}%</div>
+                        <ProgressBar color__fill={'#991613'} color={'#360807'} progress={cpuUsage}></ProgressBar>
+                        <div>RAM {ramUsage} MB / {ramLimit} MB</div>
+                        <ProgressBar color__fill={'#154296'} color={'#06142e'} progress={(ramUsage/ramLimit) * 100}></ProgressBar>
                     </div>
                     <div className="control-serv">
                         <button onClick={startServer}>Start</button>
