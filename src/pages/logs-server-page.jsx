@@ -4,6 +4,10 @@ import { io } from "socket.io-client";
 
 // Service
 import serverService from "../services/apiService";
+import MenuNavBar from "../components/menu-navbar";
+
+// CSS
+import '../styles/logs-server.css';
 
 const BACKEND_ADDRESSES = process.env.REACT_APP_BACKEND_ADDRESSES
 const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT
@@ -15,6 +19,7 @@ export default function LogsServerPage() {
     const [ command, setCommand ] = useState(null);
 
     useEffect(() => { 
+        console.log(location.state);
         const socket = io(`http://${BACKEND_ADDRESSES}:${BACKEND_PORT}`,
             {
                 transports: ["websocket"]
@@ -56,17 +61,22 @@ export default function LogsServerPage() {
 
     return (
         <div className="logs-server-page">
-            <div>{logs.map((value, index) => {
-                return (
-                    <div key={index} >
-                        {index} - {value}
-                    </div>
-                )
-            })}</div>
-            <form onSubmit={(e) => { e.preventDefault()}} >
-                <input type="text" onChange={onChangeCommand} />
-                <button type="sumbit" onClick={sendCommand}>send</button>
-            </form> 
+            <MenuNavBar className="menu-logs" state={location.state}/>
+            <div className="console-server">
+                <div>{logs.map((value, index) => {
+                    return (
+                        <div key={index} >
+                            {index} - {value}
+                        </div>
+                    )
+                })}</div>
+            </div>
+            <div className="form-command">
+                <form onSubmit={(e) => { e.preventDefault()}} >
+                    <input type="text" onChange={onChangeCommand} />
+                    <button type="sumbit" onClick={sendCommand}>send</button>
+                </form> 
+            </div>
         </div>
     )
 }

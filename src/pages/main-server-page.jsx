@@ -81,6 +81,7 @@ export default function MainServerPage() {
                     })
                 }
             })
+            location.state.isRun = isRun;
 
 
             return () => {

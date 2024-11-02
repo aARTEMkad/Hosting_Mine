@@ -8,7 +8,7 @@
 
 .main-server-page {
     display: grid;
-    grid-template-columns: [first] 340px [main] auto;
+    grid-template-columns: [first] auto [main] auto;
 
 }
 
